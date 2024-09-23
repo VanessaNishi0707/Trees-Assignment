@@ -45,7 +45,12 @@ public class RBTree {
             return;
         }
         checkOrder2(node.left);
-        System.out.println(node.hawaiian[0] + " ");
+        if (node.color == Color.RED) {
+            System.out.println(node.hawaiian[0] + " " + "RED");
+        }
+        else if (node.color == Color.BLACK) {
+            System.out.println(node.hawaiian[0] + " " + "BLACK");
+        }
         checkOrder2(node.right);
     }
 
@@ -125,18 +130,68 @@ public class RBTree {
         z.left = null;
         z.right = null;
         z.color = Color.RED;
+        // insertFix(z); causes an error 
+    }
+
+    // Not working idk why, list is in order but red black property is not kept
+    public void insertFix(Node z) {
+        Node y;
+        if (z == null) 
+            return;
+
+        while (z.parent.color == Color.RED) {
+            if (z.parent == z.parent.parent.left) {
+                y = z.parent.parent.right;
+                if (y.color == Color.RED) {
+                    z.parent.color = Color.BLACK;
+                    y.color = Color.BLACK;
+                    z.parent.parent.color = Color.RED;
+                    z = z.parent.parent;
+                }
+                else {
+                    if (z == z.parent.right) {
+                        z = z.parent;
+                        leftRotate(z);
+                    }
+                    z.parent.color = Color.BLACK;
+                    z.parent.parent.color = Color.RED;
+                    rightRotate(z.parent.parent);
+                }
+            }
+            else {
+                y = z.parent.parent.left;
+                if (y.color == Color.RED) {
+                    z.parent.color = Color.BLACK;
+                    y.color = Color.BLACK;
+                    z.parent.parent.color = Color.RED;
+                    z = z.parent.parent;
+                }
+                else {
+                    if (z == z.parent.left) {
+                        z = z.parent;
+                        rightRotate(z);
+                    }
+                    z.parent.color = Color.BLACK;
+                    z.parent.parent.color = Color.RED;
+                    leftRotate(z.parent.parent);
+                }
+            }
+        }
+        this.root.color = Color.BLACK;
     }
 
     public static void main(String[] args) throws Exception {
         RBTree tree = new RBTree();
 
         tree.insert("BBB", "XXX", "XXX", "XXX");
-        tree.insert("GGG", "XXX", "XXX", "XXX");
-        tree.insert("ABA", "XXX", "XXX", "XXX");
-        tree.insert("BBA", "XXX", "XXX", "XXX");
-        tree.insert("CCC", "XXX", "XXX", "XXX");
-        tree.insert("YYY", "XXX", "XXX", "XXX");
         tree.insert("AAA", "XXX", "XXX", "XXX");
+        tree.insert("DBB", "XXX", "XXX", "XXX");
+        tree.insert("ARA", "XXX", "XXX", "XXX");
+        tree.insert("EEE", "XXX", "XXX", "XXX");
+        tree.insert("VVV", "XXX", "XXX", "XXX");
+        tree.insert("TTT", "XXX", "XXX", "XXX");
+        tree.insert("YTY", "XXX", "XXX", "XXX");
+       
         tree.checkOrder();
     }
 }
