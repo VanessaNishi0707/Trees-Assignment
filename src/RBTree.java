@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 enum Color {
     RED,
     BLACK
@@ -165,10 +167,10 @@ public class RBTree {
         z.left = null;
         z.right = null;
         z.color = Color.RED;
-        insertFix(z); // causes error when active
+        insertFix(z);
     }
 
-    // Not working idk why, list is in order but red black property is not kept
+    // Restores red-black properties
     public void insertFix(Node z) {
         Node y;
 
@@ -233,6 +235,37 @@ public class RBTree {
         root.color = Color.BLACK;
     }
 
+    // Prints strings returned by Mehua
+    public void printMeHua(String word) {
+        ArrayList<String> sayingsWithWord = MeHua(root, word);
+
+        if (sayingsWithWord.size() == 0) {
+            System.out.println("No sayings contain this word!");
+        }
+        else {
+            int i;
+            System.out.println("Here are the sayings that contain " + word + ": ");
+            for (i = 0; i < sayingsWithWord.size(); i++) {
+                System.out.println(sayingsWithWord.get(i));
+            }
+        }
+    }
+
+    // Returns array of all sayings that contain word
+    //WORK IN PROGRESS DOESNT WORK YET
+    public static ArrayList<String> MeHua(Node node, String word) {
+        ArrayList<String> sayingsWithWord = new ArrayList<String>();
+        if (node == null) {
+        }
+        MeHua(node.left, word);
+        if (node.hawaiian[0].contains(word)) {
+            sayingsWithWord.add(node.hawaiian[0]);
+        }
+        MeHua(node.right, word);
+
+        return sayingsWithWord;
+    }
+
     public static void main(String[] args) throws Exception {
         RBTree tree = new RBTree();
 
@@ -243,7 +276,15 @@ public class RBTree {
         tree.insert("TTT", "XXX", "XXX", "XXX");
         tree.insert("DDD", "XXX", "XXX", "XXX");
         tree.insert("WWW", "XXX", "XXX", "XXX");
+        tree.insert("WEWF", "XXX", "XXX", "XXX");
+        tree.insert("QCD", "XXX", "XXX", "XXX");
+        tree.insert("DFD", "XXX", "XXX", "XXX");
+        tree.insert("AAD", "XXX", "XXX", "XXX");
+        tree.insert("GRF", "XXX", "XXX", "XXX");
+        tree.insert("QEEF", "XXX", "XXX", "XXX");
+        tree.insert("AFE", "XXX", "XXX", "XXX");
         
         tree.checkOrder();
+        tree.first();
     }
 }
