@@ -32,11 +32,11 @@ public class RBTree {
 
     // Checks root
     public void checkOrder() {
-        if (this.root == null) {
+        if (root == null) {
             System.out.println("This tree is empty.");
             return;
         }
-        checkOrder2(this.root);
+        checkOrder2(root);
     }
 
     // Starts traversing down tree
@@ -54,6 +54,39 @@ public class RBTree {
         checkOrder2(node.right);
     }
 
+    // MEMBER 
+    // Check if node is a member in tree
+    public void member(String saying) {
+        if (root == null) {
+            System.out.println("This tree is empty.");
+            return;
+        }
+        member2(root, saying);
+    }
+
+    // Starts traversing down tree
+    public void member2(Node node, String saying) {
+        if (node == null) {
+            return;
+        }
+        member2(node.left, saying);
+        if (node.hawaiian[0] == saying) {
+            System.out.println("This saying is a member!");
+            return;
+        }
+        member2(node.right, saying);
+    }
+
+    // FIRST 
+    public void first() { // returns first member of tree
+        if (root == null) {
+            System.out.println("The tree is empty.");;
+        }
+        else {
+            System.out.println("Here's the first saying: " + root.hawaiian[0]);
+        }
+    }
+
     public void leftRotate (Node x) {
         Node y = x.right;
         x.right = y.left;
@@ -62,7 +95,7 @@ public class RBTree {
         }
         y.parent = x.parent;
         if (x.parent == null) {
-            this.root = y;
+            root = y;
         }
         else if (x == x.parent.left) {
             x.parent.left = y;
@@ -82,9 +115,9 @@ public class RBTree {
         }
         y.parent = x.parent;
         if (x.parent == null) {
-            this.root = y;
+            root = y;
         }
-        else if (x == x.parent.right) {
+        else if (x == x.parent.right) { //if x is right child
             x.parent.right = y;
         }
         else {
@@ -94,18 +127,20 @@ public class RBTree {
         x.parent = y;
     }
 
+    // INSERT
     public void insert(String hs, String hm, String es, String em) { //hs=hawaiian saying, hm=hawaiian meaning. es= eng saying, em=eng meaning
-        if (this.root == null) {
-            this.root = new Node(hs, hm, es, em, Color.BLACK);
+        if (root == null) {
+            root = new Node(hs, hm, es, em, Color.BLACK);
          }
          else {
             Node z = new Node(hs, hm, es, em, Color.BLACK);
             insert2(z);
          }
+         return;
     } 
 
     public void insert2(Node z) {
-        Node x = this.root;
+        Node x = root;
         Node y = null;
         while (x != null) {
             y = x;
@@ -118,7 +153,7 @@ public class RBTree {
         }
         z.parent = y;
         if (y == null) {
-            this.root = z;
+            root = z;
         }
         else if (z.hawaiian[0].compareTo(y.hawaiian[0]) < 0){
             y.left = z;
@@ -130,26 +165,18 @@ public class RBTree {
         z.left = null;
         z.right = null;
         z.color = Color.RED;
-        // insertFix(z); causes an error 
+        insertFix(z); // causes error when active
     }
 
     // Not working idk why, list is in order but red black property is not kept
     public void insertFix(Node z) {
         Node y;
-        if (z == null) 
-            return;
 
-        while (z.parent.color == Color.RED) {
-            if (z.parent == z.parent.parent.left) {
-                y = z.parent.parent.right;
-                if (y.color == Color.RED) {
-                    z.parent.color = Color.BLACK;
-                    y.color = Color.BLACK;
-                    z.parent.parent.color = Color.RED;
-                    z = z.parent.parent;
-                }
-                else {
-                    if (z == z.parent.right) {
+        if (z.parent.color == Color.RED) {
+            if (z.parent == z.parent.parent.left) { // is z parent a left child
+                y = z.parent.parent.right; // y is z uncle
+                if (y == null) { // z uncle is NULL
+                    if (z == z.parent.right) { // if z is a right child
                         z = z.parent;
                         leftRotate(z);
                     }
@@ -157,10 +184,35 @@ public class RBTree {
                     z.parent.parent.color = Color.RED;
                     rightRotate(z.parent.parent);
                 }
-            }
-            else {
+                else if (y.color == Color.BLACK) { // z uncle is black
+                    if (z == z.parent.right) { // if z is a right child
+                        z = z.parent;
+                        leftRotate(z);
+                    }
+                    z.parent.color = Color.BLACK;
+                    z.parent.parent.color = Color.RED;
+                    rightRotate(z.parent.parent);
+                }
+                
+                else if (y.color == Color.RED) { // are z parent & uncle both red? 
+                    z.parent.color = Color.BLACK; 
+                    y.color = Color.BLACK;
+                    z.parent.parent.color = Color.RED;
+                    z = z.parent.parent;
+                } 
+            } 
+            else { // z parent is right child
                 y = z.parent.parent.left;
-                if (y.color == Color.RED) {
+                if (y == null) {
+                    if (z == z.parent.left) {
+                        z = z.parent;
+                        rightRotate(z);
+                    }
+                    z.parent.color = Color.BLACK;
+                    z.parent.parent.color = Color.RED;
+                    leftRotate(z.parent.parent);
+                }
+                else if (y.color == Color.RED) {
                     z.parent.color = Color.BLACK;
                     y.color = Color.BLACK;
                     z.parent.parent.color = Color.RED;
@@ -174,24 +226,24 @@ public class RBTree {
                     z.parent.color = Color.BLACK;
                     z.parent.parent.color = Color.RED;
                     leftRotate(z.parent.parent);
-                }
-            }
+                } 
+            } 
         }
-        this.root.color = Color.BLACK;
+        
+        root.color = Color.BLACK;
     }
 
     public static void main(String[] args) throws Exception {
         RBTree tree = new RBTree();
 
-        tree.insert("BBB", "XXX", "XXX", "XXX");
-        tree.insert("AAA", "XXX", "XXX", "XXX");
-        tree.insert("DBB", "XXX", "XXX", "XXX");
-        tree.insert("ARA", "XXX", "XXX", "XXX");
+        tree.insert("MMM", "XXX", "XXX", "XXX");
         tree.insert("EEE", "XXX", "XXX", "XXX");
-        tree.insert("VVV", "XXX", "XXX", "XXX");
+        tree.insert("RRR", "XXX", "XXX", "XXX");
+        tree.insert("CCC", "XXX", "XXX", "XXX");
         tree.insert("TTT", "XXX", "XXX", "XXX");
-        tree.insert("YTY", "XXX", "XXX", "XXX");
-       
+        tree.insert("DDD", "XXX", "XXX", "XXX");
+        tree.insert("WWW", "XXX", "XXX", "XXX");
+        
         tree.checkOrder();
     }
 }
