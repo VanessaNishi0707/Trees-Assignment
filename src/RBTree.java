@@ -63,29 +63,40 @@ public class RBTree {
             System.out.println("This tree is empty.");
             return;
         }
-        member2(root, saying);
+        if (member2(root, saying) == null) {
+            System.out.println("The saying: " + saying + " is NOT a member!");
+        }
+        else if (member2(root, saying) != null) {
+            System.out.println("The saying: " + saying + " is a member!");
+        }
     }
 
-    // Starts traversing down tree
-    public void member2(Node node, String saying) {
-        if (node == null) {
-            return;
+    // Recursively searches tree for match
+    public Node member2(Node node, String saying) {
+        if ((node == null) || (node.hawaiian[0] == saying)) {
+            return node;
         }
-        member2(node.left, saying);
-        if (node.hawaiian[0] == saying) {
-            System.out.println("This saying is a member!");
-            return;
+        if (node.hawaiian[0].compareTo(saying) < 0) { // if node.hawaiian[0] comes before saying alphabetically
+            return member2(node.right, saying); // search left side
         }
-        member2(node.right, saying);
+
+        return member2(node.left, saying); // else, search right side
     }
 
     // FIRST 
     public void first() { // returns first member of tree
+        Node x = root;
+        Node y = null;
+
         if (root == null) {
             System.out.println("The tree is empty.");;
         }
         else {
-            System.out.println("Here's the first saying: " + root.hawaiian[0]);
+            while (x != null) {
+                y = x;
+                x = x.left;
+            }
+            System.out.println("Here's the first saying: " + y.hawaiian[0]);
         }
     }
 
@@ -174,7 +185,7 @@ public class RBTree {
     public void insertFix(Node z) {
         Node y;
 
-        if (z.parent.color == Color.RED) {
+        while (z.parent.color == Color.RED) {
             if (z.parent == z.parent.parent.left) { // is z parent a left child
                 y = z.parent.parent.right; // y is z uncle
                 if (y == null) { // z uncle is NULL
@@ -230,6 +241,9 @@ public class RBTree {
                     leftRotate(z.parent.parent);
                 } 
             } 
+            if (z.parent == null) {
+                return;
+            }
         }
         
         root.color = Color.BLACK;
@@ -237,13 +251,15 @@ public class RBTree {
 
     // Prints strings returned by Mehua
     public void printMeHua(String word) {
-        ArrayList<String> sayingsWithWord = MeHua(root, word);
+        ArrayList<String> sayingsWithWord = new ArrayList<>();
+        int i;
+        
+        MeHua(root, word, sayingsWithWord);
 
         if (sayingsWithWord.size() == 0) {
             System.out.println("No sayings contain this word!");
         }
         else {
-            int i;
             System.out.println("Here are the sayings that contain " + word + ": ");
             for (i = 0; i < sayingsWithWord.size(); i++) {
                 System.out.println(sayingsWithWord.get(i));
@@ -252,18 +268,16 @@ public class RBTree {
     }
 
     // Returns array of all sayings that contain word
-    //WORK IN PROGRESS DOESNT WORK YET
-    public static ArrayList<String> MeHua(Node node, String word) {
-        ArrayList<String> sayingsWithWord = new ArrayList<String>();
+    // Was confused on how to do this part so I followed code from trincot on stackexchange
+    public void MeHua(Node node, String word, ArrayList<String> sayingsWithWord) {
         if (node == null) {
+            return;
         }
-        MeHua(node.left, word);
         if (node.hawaiian[0].contains(word)) {
             sayingsWithWord.add(node.hawaiian[0]);
         }
-        MeHua(node.right, word);
-
-        return sayingsWithWord;
+        MeHua(node.left, word, sayingsWithWord);
+        MeHua(node.right, word, sayingsWithWord);
     }
 
     public static void main(String[] args) throws Exception {
@@ -271,20 +285,11 @@ public class RBTree {
 
         tree.insert("MMM", "XXX", "XXX", "XXX");
         tree.insert("EEE", "XXX", "XXX", "XXX");
-        tree.insert("RRR", "XXX", "XXX", "XXX");
-        tree.insert("CCC", "XXX", "XXX", "XXX");
-        tree.insert("TTT", "XXX", "XXX", "XXX");
-        tree.insert("DDD", "XXX", "XXX", "XXX");
-        tree.insert("WWW", "XXX", "XXX", "XXX");
-        tree.insert("WEWF", "XXX", "XXX", "XXX");
-        tree.insert("QCD", "XXX", "XXX", "XXX");
-        tree.insert("DFD", "XXX", "XXX", "XXX");
-        tree.insert("AAD", "XXX", "XXX", "XXX");
-        tree.insert("GRF", "XXX", "XXX", "XXX");
-        tree.insert("QEEF", "XXX", "XXX", "XXX");
-        tree.insert("AFE", "XXX", "XXX", "XXX");
+        tree.insert("MMM", "XXX", "XXX", "XXX");
+        tree.insert("EEE", "XXX", "XXX", "XXX");
+        tree.insert("MMM", "XXX", "XXX", "XXX");
+        tree.insert("EEE", "XXX", "XXX", "XXX");
         
         tree.checkOrder();
-        tree.first();
     }
 }
