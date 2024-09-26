@@ -32,8 +32,9 @@ public class RBTree {
         }
     }
 
-    // Checks root
-    public void checkOrder() {
+    // Checks if nodes have been inserted alphabetically within the tree. 
+    // Does not check if red-black properties are maintained.
+    public void checkOrder() { // Checks root
         if (root == null) {
             System.out.println("This tree is empty.");
             return;
@@ -41,8 +42,7 @@ public class RBTree {
         checkOrder2(root);
     }
 
-    // Starts traversing down tree
-    public void checkOrder2(Node node) {
+    public void checkOrder2(Node node) { // Traverses down tree recurisvely
         if (node == null) {
             return;
         }
@@ -56,8 +56,7 @@ public class RBTree {
         checkOrder2(node.right);
     }
 
-    // MEMBER 
-    // Check if node is a member in tree
+    // MEMBER: Prints result from member2
     public void member(String saying) {
         if (root == null) {
             System.out.println("This tree is empty.");
@@ -71,7 +70,7 @@ public class RBTree {
         }
     }
 
-    // Recursively searches tree for match
+    // Searches tree for match using divide-and-conquer, returns node if a match is found
     public Node member2(Node node, String saying) {
         if ((node == null) || (node.hawaiian[0] == saying)) {
             return node;
@@ -83,7 +82,8 @@ public class RBTree {
         return member2(node.left, saying); // else, search right side
     }
 
-    // FIRST 
+    // FIRST: Finds leftmost node which in this case contains the saying that comes first alphabetically
+    // Traverses down the leftmost path until it reaches a node who's left child is null
     public void first() { // returns first member of tree
         Node x = root;
         Node y = null;
@@ -96,11 +96,14 @@ public class RBTree {
                 y = x;
                 x = x.left;
             }
-            System.out.println("Here's the first saying: " + y.hawaiian[0]);
+            System.out.println("Here's the first saying: ");
+            System.out.println("Hawaiian saying: " + y.hawaiian[0]);
+            System.out.println("Hawaiian meaning: " + y.hawaiian[1]);
+            System.out.println("English saying: " + y.english[0]);
+            System.out.println("English meaning: " + y.english[1] + "\n");
         }
     }
 
-    //-------------------------------------added code start----------------------//
     // LAST
 public void last() {
     if (root == null) {
@@ -111,7 +114,11 @@ public void last() {
     while (current.right != null) {
         current = current.right;
     }
-    System.out.println("Here's the last saying: " + current.hawaiian[0]);
+        System.out.println("Here's the last saying: ");
+        System.out.println("Hawaiian saying: " + current.hawaiian[0]);
+        System.out.println("Hawaiian meaning: " + current.hawaiian[1]);
+        System.out.println("English saying: " + current.english[0]);
+        System.out.println("English meaning: " + current.english[1] + "\n");
 }
 
 // PREDECESSOR
@@ -172,8 +179,8 @@ private ArrayList<String> findWithWord(Node node, String word) {
     }
     return sayingsWithWord;
 }
-//-----------------------------------added code end-------------------------//
 
+    // Auxillary functions for insert
     public void leftRotate (Node x) {
         Node y = x.right;
         x.right = y.left;
@@ -214,7 +221,7 @@ private ArrayList<String> findWithWord(Node node, String word) {
         x.parent = y;
     }
 
-    // INSERT
+    // INSERT: inserts a node into the proper position and maintains red-black properties
     public void insert(String hs, String hm, String es, String em) { //hs=hawaiian saying, hm=hawaiian meaning. es= eng saying, em=eng meaning
         if (root == null) {
             root = new Node(hs, hm, es, em, Color.BLACK);
@@ -226,6 +233,8 @@ private ArrayList<String> findWithWord(Node node, String word) {
          return;
     } 
 
+    // Traverses down a simple path to find the proper place for the new node
+    // Halves the search area with each iteration
     public void insert2(Node z) {
         Node x = root;
         Node y = null;
@@ -323,12 +332,13 @@ private ArrayList<String> findWithWord(Node node, String word) {
         root.color = Color.BLACK;
     }
 
-    // Prints strings returned by Mehua
-    public void printMeHua(String word) {
+    // MEHUA
+    // Prints the strings returned by Mehua
+    public void MeHua(String word) {
         ArrayList<String> sayingsWithWord = new ArrayList<>();
         int i;
         
-        MeHua(root, word, sayingsWithWord);
+        MeHuaHelper(root, word, sayingsWithWord);
 
         if (sayingsWithWord.size() == 0) {
             System.out.println("No sayings contain this word!");
@@ -339,31 +349,41 @@ private ArrayList<String> findWithWord(Node node, String word) {
                 System.out.println(sayingsWithWord.get(i));
             }
         }
+        System.out.println("\n");
     }
 
-    // Returns array of all sayings that contain word
-    // Was confused on how to do this part so I followed code from trincot on stackexchange
-    public void MeHua(Node node, String word, ArrayList<String> sayingsWithWord) {
+    // Returns arraylist of all sayings that contain the given word
+    public void MeHuaHelper(Node node, String word, ArrayList<String> sayingsWithWord) {
         if (node == null) {
             return;
         }
         if (node.hawaiian[0].contains(word)) {
             sayingsWithWord.add(node.hawaiian[0]);
         }
-        MeHua(node.left, word, sayingsWithWord);
-        MeHua(node.right, word, sayingsWithWord);
+        MeHuaHelper(node.left, word, sayingsWithWord);
+        MeHuaHelper(node.right, word, sayingsWithWord);
     }
 
     public static void main(String[] args) throws Exception {
         RBTree tree = new RBTree();
 
-        tree.insert("MMM", "XXX", "XXX", "XXX");
-        tree.insert("EEE", "XXX", "XXX", "XXX");
-        tree.insert("MMM", "XXX", "XXX", "XXX");
-        tree.insert("EEE", "XXX", "XXX", "XXX");
-        tree.insert("MMM", "XXX", "XXX", "XXX");
-        tree.insert("EEE", "XXX", "XXX", "XXX");
-        
+        tree.insert("E kaupē aku nō i ka hoe a kō mai.", "XXX", "Put forward the paddle and draw it back", "Go on with the task that is started and finish it.");
+        tree.insert("Hoʻokahi nō lā o ka malihini.", "XXX", "A stranger only for a day.", "After the first day as a guest, one must help with the work.");
+        tree.insert("Kūlia i ka nuʻu.", "XXX", "Strive to reach the highest.", "Strive to do your best.");
+        tree.insert("Ma ka hana ka ʻike.", "XXX", "In working one learns.", "Knowledge can be acquired by doing.");
+        tree.insert("Na ka ʻeleu miki.", "XXX", "(The prize) goes to the quick one", "Similar to the saying, “The early bird gets the worm.”");
+        tree.insert("ʻAʻa i ka hula, waiho i ka hilahila i ka hale.", "XXX", "When one wants to dance the hula, bashfulness should be left at home.", "Don’t be shy. Participate! This does not just pertain to hula. This can be used in all situations\n" + //
+                        "when one is apprehensive in participating in an activity");
+        tree.insert("ʻIke i ke au nui me ke au iki.", "XXX", "Knows the big currents and the little currents.", "Is very well versed");
+        tree.insert("Ua hala ʻē ka Puʻulena.", "XXX", "The Puʻulena wind of Puna has passed.", "Too late! Your chance has passed. Be quick next time.");
+
+        tree.checkOrder();
+        tree.first(); 
+        tree.last();
+        tree.withWord("the");
+        tree.MeHua("ka");
+
+        tree.insert("I maikaʻi ke kalo i ka ʻohā.", "XXX", "The goodness of the taro is judged by the young plant it produces", "Parents are often judged by the behavior of their children.");
         tree.checkOrder();
     }
 }
