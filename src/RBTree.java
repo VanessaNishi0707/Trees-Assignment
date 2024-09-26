@@ -100,6 +100,80 @@ public class RBTree {
         }
     }
 
+    //-------------------------------------added code start----------------------//
+    // LAST
+public void last() {
+    if (root == null) {
+        System.out.println("The tree is empty.");
+        return;
+    }
+    Node current = root;
+    while (current.right != null) {
+        current = current.right;
+    }
+    System.out.println("Here's the last saying: " + current.hawaiian[0]);
+}
+
+// PREDECESSOR
+public Node predecessor(Node node) {
+    if (node == null) return null;
+    if (node.left != null) {
+        Node current = node.left;
+        while (current.right != null) {
+            current = current.right;
+        }
+        return current;
+    }
+    Node parent = node.parent;
+    while (parent != null && node == parent.left) {
+        node = parent;
+        parent = parent.parent;
+    }
+    return parent;
+}
+
+// SUCCESSOR
+public Node successor(Node node) {
+    if (node == null) return null;
+    if (node.right != null) {
+        Node current = node.right;
+        while (current.left != null) {
+            current = current.left;
+        }
+        return current;
+    }
+    Node parent = node.parent;
+    while (parent != null && node == parent.right) {
+        node = parent;
+        parent = parent.parent;
+    }
+    return parent;
+}
+
+// WITH WORD
+public void withWord(String word) {
+    ArrayList<String> sayingsWithWord = findWithWord(root, word);
+    if (sayingsWithWord.isEmpty()) {
+        System.out.println("No sayings contain this word!");
+    } else {
+        System.out.println("Here are the sayings that contain " + word + ": " + sayingsWithWord);
+    }
+}
+
+// Helper method to find sayings containing the specified word
+private ArrayList<String> findWithWord(Node node, String word) {
+    ArrayList<String> sayingsWithWord = new ArrayList<>();
+    if (node != null) {
+        sayingsWithWord.addAll(findWithWord(node.left, word));
+        if (node.hawaiian[0].contains(word)) {
+            sayingsWithWord.add(node.hawaiian[0]);
+        }
+        sayingsWithWord.addAll(findWithWord(node.right, word));
+    }
+    return sayingsWithWord;
+}
+//-----------------------------------added code end-------------------------//
+
     public void leftRotate (Node x) {
         Node y = x.right;
         x.right = y.left;
