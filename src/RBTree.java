@@ -182,7 +182,7 @@ private Node findNode(String saying, Node root) {
     }
 }
 
-/* public void withWord(String word, ArrayList<String> hawaiianSayings) {
+public void withWord(String word, ArrayList<String> hawaiianSayings) {
     ArrayList<String> sayings = this.findWithWord(hawaiianSayings, word);
     if (sayings.isEmpty()) {
         System.out.println("No Hawaiian sayings contain this word!");
@@ -203,7 +203,7 @@ private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String
     }
 
     return results;
-} */
+}
 
 // WITHWORD
 // Prints the strings returned by withwordhelper
