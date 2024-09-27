@@ -1,11 +1,5 @@
 import java.util.ArrayList;
 
-/****************************************************
-    Divsion of Implementation & Documentation:
-    Jayda: Last, Predecessor, Successor, WithWord
-    Vanessa: Member, First, Insert, MeHua
-*****************************************************/
-
 enum Color {
     RED, BLACK
 }
@@ -90,15 +84,10 @@ public class RBTree {
         System.out.println("English meaning: " + current.english[1] + "\n");
     }
 
-<<<<<<< HEAD
-=======
-    // LAST
->>>>>>> bd5f89b6fae6ff29e51b872a4623b7b5a71230a6
     public void last() {
         if (root == null) {
             System.out.println("The tree is empty.");
             return;
-<<<<<<< HEAD
         }
         Node current = root;
         while (current.right != null) {
@@ -155,74 +144,11 @@ public class RBTree {
         return (temp == null) ? "No successor" : String.join(" ", temp.hawaiian);
     }
 
-=======
-        }
-        Node current = root;
-        while (current.right != null) {
-            current = current.right;
-        }
-            System.out.println("Here's the last saying: ");
-            System.out.println("Hawaiian saying: " + current.hawaiian[0]);
-            System.out.println("Hawaiian meaning: " + current.hawaiian[1]);
-            System.out.println("English saying: " + current.english[0]);
-            System.out.println("English meaning: " + current.english[1] + "\n");
-    }
-
-    public String predecessor(String saying, Node root) {
-        Node node = findNode(saying, root);
-        if (node == null) {
-            return "Saying not found"; // or another appropriate message
-        }
-
-        if (node.left != null) {
-            Node temp = node.left;
-            while (temp.right != null) {
-                temp = temp.right;
-            }
-            return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
-        }
-
-        Node temp = node.parent;
-        while (temp != null && node == temp.left) {
-            node = temp;
-            temp = temp.parent;
-        }
-        return (temp == null) ? "No predecessor" : String.join(" ", temp.hawaiian); // Return a message if no predecessor
-    }
-
-    public String successor(String saying, Node root) {
-        Node node = findNode(saying, root);
-        if (node == null) {
-            return "Saying not found"; // or another appropriate message
-        }
-
-        if (node.right != null) {
-            Node temp = node.right;
-            while (temp.left != null) {
-                temp = temp.left;
-            }
-            return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
-        }
-
-        Node temp = node.parent;
-        while (temp != null && node == temp.right) {
-            node = temp;
-            temp = temp.parent;
-        }
-        return (temp == null) ? "No successor" : String.join(" ", temp.hawaiian); // Return a message if no successor
-    }
-
->>>>>>> bd5f89b6fae6ff29e51b872a4623b7b5a71230a6
     private Node findNode(String saying, Node root) {
         if (root == null) {
             return null;
         }
-<<<<<<< HEAD
         int comparison = saying.compareTo(root.hawaiian[0]);
-=======
-
-        int comparison = saying.compareTo(String.join(" ", root.hawaiian));
->>>>>>> bd5f89b6fae6ff29e51b872a4623b7b5a71230a6
         if (comparison < 0) {
             return findNode(saying, root.left);
         } else if (comparison > 0) {
@@ -232,13 +158,8 @@ public class RBTree {
         }
     }
 
-<<<<<<< HEAD
     public void withWord(String word) {
         ArrayList<String> sayings = findWithWord(root, word);
-=======
-    public void withWord(String word, ArrayList<String> hawaiianSayings) {
-        ArrayList<String> sayings = this.findWithWord(hawaiianSayings, word);
->>>>>>> bd5f89b6fae6ff29e51b872a4623b7b5a71230a6
         if (sayings.isEmpty()) {
             System.out.println("No Hawaiian sayings contain this word!");
         } else {
@@ -246,7 +167,6 @@ public class RBTree {
         }
     }
 
-<<<<<<< HEAD
     private ArrayList<String> findWithWord(Node node, String word) {
         ArrayList<String> results = new ArrayList<>();
         if (node == null) {
@@ -259,53 +179,6 @@ public class RBTree {
         results.addAll(findWithWord(node.right, word));
         return results;
     }
-=======
-    private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String word) {
-        ArrayList<String> results = new ArrayList<>();
-        
-        // Traverse through the list of Hawaiian sayings
-        for (String saying : hawaiianSayings) {
-            // Check if the current saying contains the given word
-            if (saying.contains(word)) {
-                results.add(saying);
-            }
-        }
-
-        return results;
-    }
-
-    // WITHWORD
-    // Prints the strings returned by withwordhelper
-    public void WithWord(String word) {
-        ArrayList<String> sayingsWithWord = new ArrayList<>();
-        int i;
-        
-        WithWordHelper(root, word, sayingsWithWord);
-
-        if (sayingsWithWord.size() == 0) {
-            System.out.println("None of the English translations contain this word!");
-        }
-        else {
-            System.out.println("Here are the English translations that contain " + word + ": ");
-            for (i = 0; i < sayingsWithWord.size(); i++) {
-                System.out.println(sayingsWithWord.get(i));
-            }
-        }
-        System.out.println("");
-    }
-
-    // Returns arraylist of all sayings that contain the given word
-    public void WithWordHelper(Node node, String word, ArrayList<String> sayingsWithWord) {
-        if (node == null) {
-            return;
-        }
-        if (node.english[1].contains(word)) {
-            sayingsWithWord.add(node.english[1]);
-        }
-        WithWordHelper(node.left, word, sayingsWithWord);
-        WithWordHelper(node.right, word, sayingsWithWord);
-    }
->>>>>>> bd5f89b6fae6ff29e51b872a4623b7b5a71230a6
 
     public void meHua(String word) {
         ArrayList<String> sayingsWithWord = new ArrayList<>();
@@ -435,7 +308,8 @@ public class RBTree {
         y.right = x;
         x.parent = y;
     }
-    public static void main(String[] args) throws Exception {
+
+   public static void main(String[] args) throws Exception {
         RBTree tree = new RBTree();
     
         // Insert sayings into the tree
@@ -448,28 +322,15 @@ public class RBTree {
         tree.insert("ʻIke i ke au nui me ke au iki.", "XXX", "Knows the big currents and the little currents.", "Is very well versed");
         tree.insert("Ua hala ʻē ka Puʻulena.", "XXX", "The Puʻulena wind of Puna has passed.", "Too late! Your chance has passed. Be quick next time.");
     
-        // Check the order of the tree
-        tree.checkOrder(); // This should validate the structure of the tree
-    
+
+      
         tree.checkOrder();
         tree.member("Aloha");
         tree.first();
         tree.last();
-<<<<<<< HEAD
         System.out.println(tree.predecessor("Mahalo"));
         System.out.println(tree.successor("Aloha"));
         tree.withWord("Aloha");
         tree.meHua("Aloha");
-=======
-        tree.MeHua("ka");
-
-        tree.insert("I maikaʻi ke kalo i ka ʻohā.", "XXX", "The goodness of the taro is judged by the young plant it produces", "Parents are often judged by the behavior of their children."); 
-        */
-
-        System.out.println(tree.successor("E kaupē aku nō i ka hoe a kō mai.", tree.root));
-        System.out.println(tree.successor("Kūlia i ka nuʻu.", tree.root));
-        System.out.println(tree.predecessor("ʻIke i ke au nui me ke au iki.", tree.root));
-        System.out.println(tree.predecessor("a hala ʻē ka Puʻulena.", tree.root));
->>>>>>> bd5f89b6fae6ff29e51b872a4623b7b5a71230a6
     }
 }
