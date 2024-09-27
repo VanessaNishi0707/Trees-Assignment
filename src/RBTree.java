@@ -205,6 +205,38 @@ private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String
     return results;
 }
 
+// MEHUA
+// Prints the strings returned by Mehua
+public void WithWord(String word) {
+    ArrayList<String> sayingsWithWord = new ArrayList<>();
+    int i;
+    
+    WithWordHelper(root, word, sayingsWithWord);
+
+    if (sayingsWithWord.size() == 0) {
+        System.out.println("None of the English translations contain this word!");
+    }
+    else {
+        System.out.println("Here are the English translations that contain " + word + ": ");
+        for (i = 0; i < sayingsWithWord.size(); i++) {
+            System.out.println(sayingsWithWord.get(i));
+        }
+    }
+    System.out.println("");
+}
+
+// Returns arraylist of all sayings that contain the given word
+public void WithWordHelper(Node node, String word, ArrayList<String> sayingsWithWord) {
+    if (node == null) {
+        return;
+    }
+    if (node.english[1].contains(word)) {
+        sayingsWithWord.add(node.english[1]);
+    }
+    WithWordHelper(node.left, word, sayingsWithWord);
+    WithWordHelper(node.right, word, sayingsWithWord);
+}
+
     // Auxillary functions for insert
     public void leftRotate (Node x) {
         Node y = x.right;
@@ -366,15 +398,15 @@ private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String
         MeHuaHelper(root, word, sayingsWithWord);
 
         if (sayingsWithWord.size() == 0) {
-            System.out.println("No sayings contain this word!");
+            System.out.println("No Hawaiian sayings contain this word!");
         }
         else {
-            System.out.println("Here are the sayings that contain " + word + ": ");
+            System.out.println("Here are the Hawaiian sayings that contain " + word + ": ");
             for (i = 0; i < sayingsWithWord.size(); i++) {
                 System.out.println(sayingsWithWord.get(i));
             }
         }
-        System.out.println("\n");
+        System.out.println("");
     }
 
     // Returns arraylist of all sayings that contain the given word
@@ -409,8 +441,7 @@ private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String
 
         tree.insert("I maikaʻi ke kalo i ka ʻohā.", "XXX", "The goodness of the taro is judged by the young plant it produces", "Parents are often judged by the behavior of their children."); 
         */
-
-        System.out.println("Here is the successor: " + tree.successor("Ma ka hana ka ʻike.", tree.root));
-        tree.MeHua("xxx");
+        tree.MeHua("ka");
+        tree.WithWord("XXX");
     }
 }
