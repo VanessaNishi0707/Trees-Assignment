@@ -121,11 +121,10 @@ public void last() {
         System.out.println("English meaning: " + current.english[1] + "\n");
 }
 
-// PREDECESSOR
 public String predecessor(String saying, Node root) {
     Node node = findNode(saying, root);
     if (node == null) {
-        return null;
+        return "Saying not found"; // or another appropriate message
     }
 
     if (node.left != null) {
@@ -141,14 +140,13 @@ public String predecessor(String saying, Node root) {
         node = temp;
         temp = temp.parent;
     }
-    return temp == null ? null : String.join(" ", temp.hawaiian); // Return as a string
+    return (temp == null) ? "No predecessor" : String.join(" ", temp.hawaiian); // Return a message if no predecessor
 }
 
-// SUCCESSOR
 public String successor(String saying, Node root) {
     Node node = findNode(saying, root);
     if (node == null) {
-        return null;
+        return "Saying not found"; // or another appropriate message
     }
 
     if (node.right != null) {
@@ -164,7 +162,7 @@ public String successor(String saying, Node root) {
         node = temp;
         temp = temp.parent;
     }
-    return temp == null ? null : String.join(" ", temp.hawaiian); // Return as a string
+    return (temp == null) ? "No successor" : String.join(" ", temp.hawaiian); // Return a message if no successor
 }
 
 private Node findNode(String saying, Node root) {
