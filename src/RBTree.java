@@ -122,21 +122,21 @@ public void last() {
 }
 
 // PREDECESSOR
-public String predecessor(String saying, RBTree$Node root) {
-    RBTree$Node node = findNode(saying, root);
+public String predecessor(String saying, Node root) {
+    Node node = findNode(saying, root);
     if (node == null) {
         return null;
     }
 
     if (node.left != null) {
-        RBTree$Node temp = node.left;
+        Node temp = node.left;
         while (temp.right != null) {
             temp = temp.right;
         }
         return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
     }
 
-    RBTree$Node temp = node.parent;
+    Node temp = node.parent;
     while (temp != null && node == temp.left) {
         node = temp;
         temp = temp.parent;
@@ -145,36 +145,29 @@ public String predecessor(String saying, RBTree$Node root) {
 }
 
 // SUCCESSOR
-public String successor(String saying, RBTree$Node root) {
-    RBTree$Node node = findNode(saying, root);
+public String successor(String saying, Node root) {
+    Node node = findNode(saying, root);
     if (node == null) {
         return null;
     }
 
     if (node.right != null) {
-        RBTree$Node temp = node.right;
+        Node temp = node.right;
         while (temp.left != null) {
             temp = temp.left;
         }
         return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
     }
 
-    RBTree$Node temp = node.parent;
+    Node temp = node.parent;
     while (temp != null && node == temp.right) {
         node = temp;
         temp = temp.parent;
     }
     return temp == null ? null : String.join(" ", temp.hawaiian); // Return as a string
 }
-public void withWord(String word, List<String> hawaiianSayings) {
-    ArrayList<String> sayings = this.findWithWord(hawaiianSayings, word);
-    if (sayings.isEmpty()) {
-        System.out.println("No Hawaiian sayings contain this word!");
-    } else {
-        System.out.println("Here are the Hawaiian sayings that contain \"" + word + "\": " + String.join(", ", sayings));
-    }
-}
-private RBTree$Node findNode(String saying, RBTree$Node root) {
+
+private Node findNode(String saying, Node root) {
     if (root == null) {
         return null;
     }
@@ -189,7 +182,16 @@ private RBTree$Node findNode(String saying, RBTree$Node root) {
     }
 }
 
-private ArrayList<String> findWithWord(List<String> hawaiianSayings, String word) {
+public void withWord(String word, ArrayList<String> hawaiianSayings) {
+    ArrayList<String> sayings = this.findWithWord(hawaiianSayings, word);
+    if (sayings.isEmpty()) {
+        System.out.println("No Hawaiian sayings contain this word!");
+    } else {
+        System.out.println("Here are the Hawaiian sayings that contain \"" + word + "\": " + String.join(", ", sayings));
+    }
+}
+
+private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String word) {
     ArrayList<String> results = new ArrayList<>();
     
     // Traverse through the list of Hawaiian sayings
@@ -400,13 +402,15 @@ private ArrayList<String> findWithWord(List<String> hawaiianSayings, String word
         tree.insert("ʻIke i ke au nui me ke au iki.", "XXX", "Knows the big currents and the little currents.", "Is very well versed");
         tree.insert("Ua hala ʻē ka Puʻulena.", "XXX", "The Puʻulena wind of Puna has passed.", "Too late! Your chance has passed. Be quick next time.");
 
-        tree.checkOrder();
+        /*tree.checkOrder();
         tree.first(); 
         tree.last();
-        tree.withWord("the");
         tree.MeHua("ka");
 
-        tree.insert("I maikaʻi ke kalo i ka ʻohā.", "XXX", "The goodness of the taro is judged by the young plant it produces", "Parents are often judged by the behavior of their children.");
-        tree.checkOrder();
+        tree.insert("I maikaʻi ke kalo i ka ʻohā.", "XXX", "The goodness of the taro is judged by the young plant it produces", "Parents are often judged by the behavior of their children."); 
+        */
+
+        System.out.println("Here is the successor: " + tree.successor("Ma ka hana ka ʻike.", tree.root));
+        tree.MeHua("xxx");
     }
 }
