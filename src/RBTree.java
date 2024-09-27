@@ -122,62 +122,85 @@ public void last() {
 }
 
 // PREDECESSOR
-public Node predecessor(Node node) {
-    if (node == null) return null;
+public String predecessor(String saying, RBTree$Node root) {
+    RBTree$Node node = findNode(saying, root);
+    if (node == null) {
+        return null;
+    }
+
     if (node.left != null) {
-        Node current = node.left;
-        while (current.right != null) {
-            current = current.right;
+        RBTree$Node temp = node.left;
+        while (temp.right != null) {
+            temp = temp.right;
         }
-        return current;
+        return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
     }
-    Node parent = node.parent;
-    while (parent != null && node == parent.left) {
-        node = parent;
-        parent = parent.parent;
+
+    RBTree$Node temp = node.parent;
+    while (temp != null && node == temp.left) {
+        node = temp;
+        temp = temp.parent;
     }
-    return parent;
+    return temp == null ? null : String.join(" ", temp.hawaiian); // Return as a string
 }
 
 // SUCCESSOR
-public Node successor(Node node) {
-    if (node == null) return null;
+public String successor(String saying, RBTree$Node root) {
+    RBTree$Node node = findNode(saying, root);
+    if (node == null) {
+        return null;
+    }
+
     if (node.right != null) {
-        Node current = node.right;
-        while (current.left != null) {
-            current = current.left;
+        RBTree$Node temp = node.right;
+        while (temp.left != null) {
+            temp = temp.left;
         }
-        return current;
+        return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
     }
-    Node parent = node.parent;
-    while (parent != null && node == parent.right) {
-        node = parent;
-        parent = parent.parent;
-    }
-    return parent;
-}
 
-// WITH WORD
-public void withWord(String word) {
-    ArrayList<String> sayingsWithWord = findWithWord(root, word);
-    if (sayingsWithWord.isEmpty()) {
-        System.out.println("No sayings contain this word!");
+    RBTree$Node temp = node.parent;
+    while (temp != null && node == temp.right) {
+        node = temp;
+        temp = temp.parent;
+    }
+    return temp == null ? null : String.join(" ", temp.hawaiian); // Return as a string
+}
+public void withWord(String word, List<String> hawaiianSayings) {
+    ArrayList<String> sayings = this.findWithWord(hawaiianSayings, word);
+    if (sayings.isEmpty()) {
+        System.out.println("No Hawaiian sayings contain this word!");
     } else {
-        System.out.println("Here are the sayings that contain " + word + ": " + sayingsWithWord);
+        System.out.println("Here are the Hawaiian sayings that contain \"" + word + "\": " + String.join(", ", sayings));
+    }
+}
+private RBTree$Node findNode(String saying, RBTree$Node root) {
+    if (root == null) {
+        return null;
+    }
+
+    int comparison = saying.compareTo(String.join(" ", root.hawaiian));
+    if (comparison < 0) {
+        return findNode(saying, root.left);
+    } else if (comparison > 0) {
+        return findNode(saying, root.right);
+    } else {
+        return root;
     }
 }
 
-// Helper method to find sayings containing the specified word
-private ArrayList<String> findWithWord(Node node, String word) {
-    ArrayList<String> sayingsWithWord = new ArrayList<>();
-    if (node != null) {
-        sayingsWithWord.addAll(findWithWord(node.left, word));
-        if (node.hawaiian[0].contains(word)) {
-            sayingsWithWord.add(node.hawaiian[0]);
+private ArrayList<String> findWithWord(List<String> hawaiianSayings, String word) {
+    ArrayList<String> results = new ArrayList<>();
+    
+    // Traverse through the list of Hawaiian sayings
+    for (String saying : hawaiianSayings) {
+        // Check if the current saying contains the given word
+        if (saying.contains(word)) {
+            results.add(saying);
         }
-        sayingsWithWord.addAll(findWithWord(node.right, word));
     }
-    return sayingsWithWord;
+
+    return results;
 }
 
     // Auxillary functions for insert
