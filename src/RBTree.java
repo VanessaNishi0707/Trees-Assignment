@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/****************************************************
+    Divsion of Implementation & Documentation:
+    Jayda: Last, Predecessor, Successor, WithWord
+    Vanessa: Member, First, Insert, MeHua
+*****************************************************/
+
 enum Color {
     RED,
     BLACK
@@ -105,135 +111,135 @@ public class RBTree {
     }
 
     // LAST
-public void last() {
-    if (root == null) {
-        System.out.println("The tree is empty.");
-        return;
-    }
-    Node current = root;
-    while (current.right != null) {
-        current = current.right;
-    }
-        System.out.println("Here's the last saying: ");
-        System.out.println("Hawaiian saying: " + current.hawaiian[0]);
-        System.out.println("Hawaiian meaning: " + current.hawaiian[1]);
-        System.out.println("English saying: " + current.english[0]);
-        System.out.println("English meaning: " + current.english[1] + "\n");
-}
-
-public String predecessor(String saying, Node root) {
-    Node node = findNode(saying, root);
-    if (node == null) {
-        return "Saying not found"; // or another appropriate message
-    }
-
-    if (node.left != null) {
-        Node temp = node.left;
-        while (temp.right != null) {
-            temp = temp.right;
+    public void last() {
+        if (root == null) {
+            System.out.println("The tree is empty.");
+            return;
         }
-        return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
-    }
-
-    Node temp = node.parent;
-    while (temp != null && node == temp.left) {
-        node = temp;
-        temp = temp.parent;
-    }
-    return (temp == null) ? "No predecessor" : String.join(" ", temp.hawaiian); // Return a message if no predecessor
-}
-
-public String successor(String saying, Node root) {
-    Node node = findNode(saying, root);
-    if (node == null) {
-        return "Saying not found"; // or another appropriate message
-    }
-
-    if (node.right != null) {
-        Node temp = node.right;
-        while (temp.left != null) {
-            temp = temp.left;
+        Node current = root;
+        while (current.right != null) {
+            current = current.right;
         }
-        return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
+            System.out.println("Here's the last saying: ");
+            System.out.println("Hawaiian saying: " + current.hawaiian[0]);
+            System.out.println("Hawaiian meaning: " + current.hawaiian[1]);
+            System.out.println("English saying: " + current.english[0]);
+            System.out.println("English meaning: " + current.english[1] + "\n");
     }
 
-    Node temp = node.parent;
-    while (temp != null && node == temp.right) {
-        node = temp;
-        temp = temp.parent;
-    }
-    return (temp == null) ? "No successor" : String.join(" ", temp.hawaiian); // Return a message if no successor
-}
+    public String predecessor(String saying, Node root) {
+        Node node = findNode(saying, root);
+        if (node == null) {
+            return "Saying not found"; // or another appropriate message
+        }
 
-private Node findNode(String saying, Node root) {
-    if (root == null) {
-        return null;
+        if (node.left != null) {
+            Node temp = node.left;
+            while (temp.right != null) {
+                temp = temp.right;
+            }
+            return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
+        }
+
+        Node temp = node.parent;
+        while (temp != null && node == temp.left) {
+            node = temp;
+            temp = temp.parent;
+        }
+        return (temp == null) ? "No predecessor" : String.join(" ", temp.hawaiian); // Return a message if no predecessor
     }
 
-    int comparison = saying.compareTo(String.join(" ", root.hawaiian));
-    if (comparison < 0) {
-        return findNode(saying, root.left);
-    } else if (comparison > 0) {
-        return findNode(saying, root.right);
-    } else {
-        return root;
-    }
-}
+    public String successor(String saying, Node root) {
+        Node node = findNode(saying, root);
+        if (node == null) {
+            return "Saying not found"; // or another appropriate message
+        }
 
-public void withWord(String word, ArrayList<String> hawaiianSayings) {
-    ArrayList<String> sayings = this.findWithWord(hawaiianSayings, word);
-    if (sayings.isEmpty()) {
-        System.out.println("No Hawaiian sayings contain this word!");
-    } else {
-        System.out.println("Here are the Hawaiian sayings that contain \"" + word + "\": " + String.join(", ", sayings));
-    }
-}
+        if (node.right != null) {
+            Node temp = node.right;
+            while (temp.left != null) {
+                temp = temp.left;
+            }
+            return String.join(" ", temp.hawaiian); // Return the Hawaiian saying as a string
+        }
 
-private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String word) {
-    ArrayList<String> results = new ArrayList<>();
-    
-    // Traverse through the list of Hawaiian sayings
-    for (String saying : hawaiianSayings) {
-        // Check if the current saying contains the given word
-        if (saying.contains(word)) {
-            results.add(saying);
+        Node temp = node.parent;
+        while (temp != null && node == temp.right) {
+            node = temp;
+            temp = temp.parent;
+        }
+        return (temp == null) ? "No successor" : String.join(" ", temp.hawaiian); // Return a message if no successor
+    }
+
+    private Node findNode(String saying, Node root) {
+        if (root == null) {
+            return null;
+        }
+
+        int comparison = saying.compareTo(String.join(" ", root.hawaiian));
+        if (comparison < 0) {
+            return findNode(saying, root.left);
+        } else if (comparison > 0) {
+            return findNode(saying, root.right);
+        } else {
+            return root;
         }
     }
 
-    return results;
-}
-
-// WITHWORD
-// Prints the strings returned by withwordhelper
-public void WithWord(String word) {
-    ArrayList<String> sayingsWithWord = new ArrayList<>();
-    int i;
-    
-    WithWordHelper(root, word, sayingsWithWord);
-
-    if (sayingsWithWord.size() == 0) {
-        System.out.println("None of the English translations contain this word!");
-    }
-    else {
-        System.out.println("Here are the English translations that contain " + word + ": ");
-        for (i = 0; i < sayingsWithWord.size(); i++) {
-            System.out.println(sayingsWithWord.get(i));
+    public void withWord(String word, ArrayList<String> hawaiianSayings) {
+        ArrayList<String> sayings = this.findWithWord(hawaiianSayings, word);
+        if (sayings.isEmpty()) {
+            System.out.println("No Hawaiian sayings contain this word!");
+        } else {
+            System.out.println("Here are the Hawaiian sayings that contain \"" + word + "\": " + String.join(", ", sayings));
         }
     }
-    System.out.println("");
-}
 
-// Returns arraylist of all sayings that contain the given word
-public void WithWordHelper(Node node, String word, ArrayList<String> sayingsWithWord) {
-    if (node == null) {
-        return;
+    private ArrayList<String> findWithWord(ArrayList<String> hawaiianSayings, String word) {
+        ArrayList<String> results = new ArrayList<>();
+        
+        // Traverse through the list of Hawaiian sayings
+        for (String saying : hawaiianSayings) {
+            // Check if the current saying contains the given word
+            if (saying.contains(word)) {
+                results.add(saying);
+            }
+        }
+
+        return results;
     }
-    if (node.english[1].contains(word)) {
-        sayingsWithWord.add(node.english[1]);
+
+    // WITHWORD
+    // Prints the strings returned by withwordhelper
+    public void WithWord(String word) {
+        ArrayList<String> sayingsWithWord = new ArrayList<>();
+        int i;
+        
+        WithWordHelper(root, word, sayingsWithWord);
+
+        if (sayingsWithWord.size() == 0) {
+            System.out.println("None of the English translations contain this word!");
+        }
+        else {
+            System.out.println("Here are the English translations that contain " + word + ": ");
+            for (i = 0; i < sayingsWithWord.size(); i++) {
+                System.out.println(sayingsWithWord.get(i));
+            }
+        }
+        System.out.println("");
     }
-    WithWordHelper(node.left, word, sayingsWithWord);
-    WithWordHelper(node.right, word, sayingsWithWord);
-}
+
+    // Returns arraylist of all sayings that contain the given word
+    public void WithWordHelper(Node node, String word, ArrayList<String> sayingsWithWord) {
+        if (node == null) {
+            return;
+        }
+        if (node.english[1].contains(word)) {
+            sayingsWithWord.add(node.english[1]);
+        }
+        WithWordHelper(node.left, word, sayingsWithWord);
+        WithWordHelper(node.right, word, sayingsWithWord);
+    }
 
     // Auxillary functions for insert
     public void leftRotate (Node x) {
