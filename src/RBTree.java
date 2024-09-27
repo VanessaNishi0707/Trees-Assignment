@@ -439,7 +439,10 @@ public void WithWordHelper(Node node, String word, ArrayList<String> sayingsWith
 
         tree.insert("I maikaʻi ke kalo i ka ʻohā.", "XXX", "The goodness of the taro is judged by the young plant it produces", "Parents are often judged by the behavior of their children."); 
         */
-        tree.MeHua("ka");
-        tree.WithWord("XXX");
+
+        System.out.println(tree.successor("E kaupē aku nō i ka hoe a kō mai.", tree.root));
+        System.out.println(tree.successor("Kūlia i ka nuʻu.", tree.root));
+        System.out.println(tree.predecessor("ʻIke i ke au nui me ke au iki.", tree.root));
+        System.out.println(tree.predecessor("a hala ʻē ka Puʻulena.", tree.root));
     }
 }
