@@ -200,6 +200,10 @@ public class RBTree {
         results.addAll(findWithWord(node.right, word));
         return results;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6fa3e8902e4b1ad520cb434f9e085603572fed6d
     public void leftRotate(Node x) {
         Node y = x.right;
         x.right = y.left;
@@ -405,7 +409,7 @@ public class RBTree {
         System.out.println(tree.predecessor("Hoʻokahi nō lā o ka malihini."));
         System.out.println(tree.successor("Ma ka hana ka ʻike."));
         tree.withWord("the");
-        tree.meHua("i");
+        tree.MeHua("i");
 
         tree.insert("I maikaʻi ke kalo i ka ʻohā.", "XXX", "The goodness of the taro is judged by the young plant it produces", "Parents are often judged by the behavior of their children."); 
         tree.checkOrder();
