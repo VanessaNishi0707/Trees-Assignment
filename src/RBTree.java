@@ -200,10 +200,6 @@ public class RBTree {
         results.addAll(findWithWord(node.right, word));
         return results;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 6fa3e8902e4b1ad520cb434f9e085603572fed6d
     public void leftRotate(Node x) {
         Node y = x.right;
         x.right = y.left;
