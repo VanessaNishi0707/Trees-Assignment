@@ -200,32 +200,6 @@ public class RBTree {
         results.addAll(findWithWord(node.right, word));
         return results;
     }
-
-    public void meHua(String word) {
-        ArrayList<String> sayingsWithWord = new ArrayList<>();
-        meHuaHelper(root, word, sayingsWithWord);
-        if (sayingsWithWord.isEmpty()) {
-            System.out.println("No Hawaiian sayings contain this word!");
-        } else {
-            System.out.println("Here are the Hawaiian sayings that contain " + word + ": ");
-            for (String saying : sayingsWithWord) {
-                System.out.println(saying);
-            }
-        }
-        System.out.println("");
-    }
-
-    public void meHuaHelper(Node node, String word, ArrayList<String> sayingsWithWord) {
-        if (node == null) {
-            return;
-        }
-        if (node.hawaiian[0].contains(word)) {
-            sayingsWithWord.add(node.hawaiian[0]);
-        }
-        meHuaHelper(node.left, word, sayingsWithWord);
-        meHuaHelper(node.right, word, sayingsWithWord);
-    }
-
     public void leftRotate(Node x) {
         Node y = x.right;
         x.right = y.left;
